@@ -25,17 +25,17 @@ public class PurchaseAdapter extends ArrayAdapter<PurchaseRecord> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view=inflater.inflate(this.layout, parent, false);
+        View view = inflater.inflate(this.layout, parent, false);
 
-        TextView amountView = (TextView) view.findViewById(R.id.amount);
-        TextView categoryView = (TextView) view.findViewById(R.id.category);
-        TextView dateView = (TextView) view.findViewById(R.id.date);
+        TextView amountView = view.findViewById(R.id.amount);
+        TextView categoryView = view.findViewById(R.id.category);
+        TextView dateView = view.findViewById(R.id.date);
 
         PurchaseRecord purchase = purchases.get(position);
 
-        amountView.setText(purchase.getAmount());
+        amountView.setText(purchase.getAmount().toString());
         categoryView.setText(purchase.getCategory());
-        dateView.setText(purchase.getDate().toString());
+        dateView.setText(purchase.getDate());
 
         return view;
     }
