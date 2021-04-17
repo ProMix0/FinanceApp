@@ -33,7 +33,7 @@ public class PurchaseAdapter extends ArrayAdapter<PurchaseRecord> {
 
         PurchaseRecord purchase = purchases.get(position);
 
-        amountView.setText(((Integer) purchase.getAmount()).toString());
+        amountView.setText(purchase.getAmount() + "");
         categoryView.setText(purchase.getCategory());
         dateView.setText(purchase.getDate());
 
