@@ -26,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
         purchases.setAdapter(adapter);
     }
     public void add(View view){
-        Integer tempAmount = Integer.getInteger(((EditText) findViewById(R.id.amount)).getText().toString());
-        int amount = tempAmount == null ? -1 : tempAmount;
+        int amount = Integer.parseInt(((EditText) findViewById(R.id.amount)).getText().toString());
         String category = ((EditText) findViewById(R.id.category)).getText().toString();
         String date = ((EditText) findViewById(R.id.date)).getText().toString();
         if (!(amount ==0) && !category.isEmpty() && !date.isEmpty()) {
