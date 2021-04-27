@@ -1,5 +1,6 @@
 package com.example.financeapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +15,10 @@ public class PurchaseAdapter extends ArrayAdapter<PurchaseRecord> {
 
     private LayoutInflater inflater;
     private int layout;
-    private List<PurchaseRecord> purchases;
 
     public PurchaseAdapter(Context context, int resource, List<PurchaseRecord> purchases) {
         super(context, resource, purchases);
-        this.purchases = purchases;
+        ((MainActivity)context ).viewModel.purchases = purchases;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
     }
