@@ -13,17 +13,44 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     ArrayList<PurchaseRecord> purchaseRecords = new ArrayList<>();
     ListView purchases;
     PurchaseAdapter adapter;
-    public ViewModel viewModel=new ViewModel();
+
+    public static final List<PurchaseRecord> purchasesList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tabLayout = findViewById(R.id.tablayout);
+        viewPager = findViewById(R.id.viewpager);
+        final MyFragmentAdapter fragmentAdapter = new MyFragmentAdapter(this, getSupportFragmentManager(),
+                tabLayout.getTabCount());
+        viewPager.setAdapter(fragmentAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
 
         purchases = findViewById(R.id.purchases);
         adapter = new PurchaseAdapter(this, R.layout.purchase_view, purchaseRecords);

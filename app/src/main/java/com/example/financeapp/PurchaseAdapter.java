@@ -15,10 +15,11 @@ public class PurchaseAdapter extends ArrayAdapter<PurchaseRecord> {
 
     private LayoutInflater inflater;
     private int layout;
+    private List<PurchaseRecord> purchases;
 
     public PurchaseAdapter(Context context, int resource, List<PurchaseRecord> purchases) {
         super(context, resource, purchases);
-        ((MainActivity)context ).viewModel.purchases = purchases;
+        purchases = MainActivity.purchasesList;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
     }
