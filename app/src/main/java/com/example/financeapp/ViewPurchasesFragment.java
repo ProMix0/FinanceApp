@@ -1,5 +1,6 @@
 package com.example.financeapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ public class ViewPurchasesFragment extends Fragment {
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        purchaseAdapter= new PurchaseAdapter(this,)
+        purchaseAdapter = new PurchaseAdapter(this.getContext(), R.layout.purchase_view, MainActivity.purchasesList);
     }
 
     @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
