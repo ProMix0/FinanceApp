@@ -16,24 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    TabLayout tabLayout;
-    ViewPager viewPager;
-
-    ArrayList<PurchaseRecord> purchaseRecords = new ArrayList<>();
-    ListView purchases;
-    PurchaseAdapter adapter;
-
-    public static final List<PurchaseRecord> purchasesList = new ArrayList<>();
+    public final static List<PurchaseRecord> sWaitList = new ArrayList<>();
+    public MyFragmentAdapter fragmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabLayout = findViewById(R.id.tablayout);
-        viewPager = findViewById(R.id.viewpager);
-        final MyFragmentAdapter fragmentAdapter = new MyFragmentAdapter(this, getSupportFragmentManager(),
+        final TabLayout tabLayout = findViewById(R.id.tablayout);
+        final ViewPager viewPager = findViewById(R.id.viewpager);
+        fragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),
                 tabLayout.getTabCount());
         viewPager.setAdapter(fragmentAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -52,29 +45,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        purchases = findViewById(R.id.purchases);
-        adapter = new PurchaseAdapter(this, R.layout.purchase_view, purchaseRecords);
-        purchases.setAdapter(adapter);
-
-        // Получаем ViewPager и устанавливаем в него адаптер
-        ViewPager viewPager = findViewById(R.id.viewpager);
-        viewPager.setAdapter(
-                new SampleFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this));
-
         // Передаём ViewPager в TabLayout
-        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-    }
-    public void add(View view){
-        int amount = Integer.parseInt(((EditText) findViewById(R.id.amount)).getText().toString());
-        String category = ((EditText) findViewById(R.id.category)).getText().toString();
-        String date = ((EditText) findViewById(R.id.date)).getText().toString();
-        if (!(amount ==0) && !category.isEmpty() && !date.isEmpty()) {
-            adapter.add(new PurchaseRecord(amount,category,date));
-            ((EditText) findViewById(R.id.amount)).setText("");
-            ((EditText) findViewById(R.id.category)).setText("");
-            ((EditText) findViewById(R.id.date)).setText("");
-            adapter.notifyDataSetChanged();
-        }
     }
 }

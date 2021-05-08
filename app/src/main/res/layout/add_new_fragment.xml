@@ -47,14 +47,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="date"
-        android:layout_margin="5dp"
-        android:autofillHints=""
-        tools:ignore="LabelFor" />
+        android:layout_margin="5dp"/>
     <Button
+        android:id="@+id/button_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create"
-        android:layout_margin="10dp"
-        android:onClick="add"/>
+        android:layout_margin="10dp"/>
 
 </LinearLayout>
