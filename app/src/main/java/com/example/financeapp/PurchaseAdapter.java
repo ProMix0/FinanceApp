@@ -18,11 +18,9 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         Model.getInstance().setDataAdapter(this);
     }
 
-    // Create new views (invoked by the layout manager)
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.purchase_view, viewGroup, false);
 
@@ -45,23 +43,18 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         private EditText category;
         private EditText date;
 
-        private View view;
-
         public ViewHolder(View view) {
             super(view);
-            this.view = view;
-            // Define click listener for the ViewHolder's View
 
             amount = view.findViewById(R.id.amount);
             category = view.findViewById(R.id.category);
             date = view.findViewById(R.id.date);
         }
 
-        public View bindView(PurchaseRecord record) {
+        public void bindView(PurchaseRecord record) {
             amount.setText(record.getAmount());
             category.setText(record.getCategory());
             date.setText(record.getDate());
-            return view;
         }
     }
 }

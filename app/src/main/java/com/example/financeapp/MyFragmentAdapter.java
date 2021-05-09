@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 class MyFragmentAdapter extends FragmentPagerAdapter {
     int totalTabs;
 
+    // Фрагменты для вкладок
     public final AddNewFragment addNewFragment;
     public final ViewPurchasesFragment viewPurchasesFragment;
 
@@ -18,6 +19,7 @@ class MyFragmentAdapter extends FragmentPagerAdapter {
     public MyFragmentAdapter(FragmentManager fm, int totalTabs) {
         super(fm, totalTabs);
 
+        // Инициализация вкладок
         addNewFragment = new AddNewFragment();
         viewPurchasesFragment = new ViewPurchasesFragment();
 

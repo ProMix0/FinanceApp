@@ -31,6 +31,7 @@ public class ViewPurchasesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Установка адаптера
         purchaseAdapter = new PurchaseAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.purchases);
         recyclerView.setAdapter(purchaseAdapter);
