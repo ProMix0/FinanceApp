@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public final static List<PurchaseRecord> sWaitList = new ArrayList<>();
-    public MyFragmentAdapter fragmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         final TabLayout tabLayout = findViewById(R.id.tablayout);
         final ViewPager viewPager = findViewById(R.id.viewpager);
-        fragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),
+        MyFragmentAdapter fragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),
                 tabLayout.getTabCount());
         viewPager.setAdapter(fragmentAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

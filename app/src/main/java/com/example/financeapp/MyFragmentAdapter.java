@@ -13,12 +13,14 @@ class MyFragmentAdapter extends FragmentPagerAdapter {
     public final AddNewFragment addNewFragment;
     public final ViewPurchasesFragment viewPurchasesFragment;
 
-    private String tabTitles[] = new String[]{"Add new purchase", "View purchases"};
+    private String[] tabTitles = new String[]{"Add new purchase", "View purchases"};
 
     public MyFragmentAdapter(FragmentManager fm, int totalTabs) {
         super(fm, totalTabs);
+
         addNewFragment = new AddNewFragment();
         viewPurchasesFragment = new ViewPurchasesFragment();
+
         this.totalTabs = totalTabs;
     }
 
@@ -26,9 +28,11 @@ class MyFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
+                return addNewFragment;
+            case 1:
                 return viewPurchasesFragment;
             default:
-                return addNewFragment;
+                return null;
         }
     }
 

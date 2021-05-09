@@ -14,10 +14,8 @@ import java.util.List;
 
 public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHolder> {
 
-    private List<PurchaseRecord> localDataSet;
-
-    public PurchaseAdapter(List<PurchaseRecord> dataSet) {
-        localDataSet = new ArrayList<>(dataSet);
+    public PurchaseAdapter() {
+        Model.getInstance().setDataAdapter(this);
     }
 
     // Create new views (invoked by the layout manager)
@@ -33,23 +31,12 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.bindView(localDataSet.get(position));
+        viewHolder.bindView(Model.getInstance().getItem(position));
     }
 
     @Override
     public int getItemCount() {
-        return localDataSet.size();
-    }
-
-    public void add(PurchaseRecord record) {
-        localDataSet.add(record);
-        notifyDataSetChanged();
-    }
-
-    public void replaceAll(List<PurchaseRecord> list) {
-        localDataSet.clear();
-        localDataSet.addAll(list);
-        notifyDataSetChanged();
+        return Model.getInstance().size();
     }
 
 

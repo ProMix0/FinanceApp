@@ -18,16 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPurchasesFragment extends Fragment implements View.OnClickListener, FragmentLifecycle {
+public class ViewPurchasesFragment extends Fragment {
     public PurchaseAdapter purchaseAdapter;
-
-    public void addItem(PurchaseRecord record) {
-        MainActivity.sWaitList.add(record);
-        Log.d("DEBUUG", (purchaseAdapter == null) + "");
-        if (purchaseAdapter != null) {
-            purchaseAdapter.add(record);
-        }
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -38,29 +30,9 @@ public class ViewPurchasesFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.showStat).setOnClickListener(this);
-        purchaseAdapter = new PurchaseAdapter(MainActivity.sWaitList);
+
+        purchaseAdapter = new PurchaseAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.purchases);
         recyclerView.setAdapter(purchaseAdapter);
-    }
-
-    @Override
-    public void onClick(View v) {
-        Toast.makeText(
-                v.getContext(),
-                "Item: " + MainActivity.sWaitList.size() + "; Show: " + purchaseAdapter.getItemCount(),
-                Toast.LENGTH_SHORT
-        ).show();
-    }
-
-    @Override
-    public void onPauseFragment() {
-
-    }
-
-    @Override
-    public void onResumeFragment() {
-        purchaseAdapter.replaceAll(MainActivity.sWaitList);
-        purchaseAdapter.notifyDataSetChanged();
     }
 }

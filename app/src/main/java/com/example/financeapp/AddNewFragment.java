@@ -18,17 +18,18 @@ public class AddNewFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
     }
 
-    @Override public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                                       Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.add_new_fragment, container, false);
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.add_new_fragment, container, false);
 
         Button button = view.findViewById(R.id.button_create);
         button.setOnClickListener(this);
+
         return view;
     }
 
     private Object findViewById(int category) {
-       return getView().findViewById(category);
+        return getView().findViewById(category);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class AddNewFragment extends Fragment implements View.OnClickListener {
         String category = ((EditText) findViewById(R.id.category)).getText().toString();
         String date = ((EditText) findViewById(R.id.date)).getText().toString();
         if (!(amount ==0) && !category.isEmpty() && !date.isEmpty()) {
-            ((MainActivity)getActivity()).fragmentAdapter.viewPurchasesFragment.addItem(new PurchaseRecord(amount,category,date));
+            Model.getInstance().addItem(new PurchaseRecord(amount, category, date));
             ((EditText) findViewById(R.id.amount)).setText("");
             ((EditText) findViewById(R.id.category)).setText("");
             ((EditText) findViewById(R.id.date)).setText("");
