@@ -39,10 +39,10 @@ public class AddNewFragment extends Fragment implements View.OnClickListener {
         // Получение введённых данных
         int amount = Integer.parseInt(((EditText) findViewById(R.id.amount)).getText().toString());
         String category = ((EditText) findViewById(R.id.category)).getText().toString();
-        String date = ((EditText) findViewById(R.id.date)).getText().toString();
+        //String date = ((TextView) findViewById(R.id.date)).getText().toString();
 
         // Проверка данных
-        if (!(amount == 0) && !category.isEmpty() && !date.isEmpty()) {
+        if (!(amount == 0) && !category.isEmpty()/* && !date.isEmpty()*/) {
 
             // Добавление записи
             Model.getInstance().addItem(new PurchaseRecord(amount, category, date));
@@ -50,7 +50,7 @@ public class AddNewFragment extends Fragment implements View.OnClickListener {
             // Очистка ввода
             ((EditText) findViewById(R.id.amount)).setText("");
             ((EditText) findViewById(R.id.category)).setText("");
-            ((EditText) findViewById(R.id.date)).setText("");
+            ((TextView) findViewById(R.id.date)).setText("");
         }
     }
 }
