@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,9 +40,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private EditText amount;
-        private EditText category;
-        private EditText date;
+        private TextView amount,category,date;
 
         public ViewHolder(View view) {
             super(view);
@@ -52,7 +51,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         }
 
         public void bindView(PurchaseRecord record) {
-            amount.setText(record.getAmount());
+            amount.setText(String.valueOf(record.getAmount()));
             category.setText(record.getCategory());
             date.setText(record.getDate());
         }
