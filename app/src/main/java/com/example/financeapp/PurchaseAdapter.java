@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,7 +41,8 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView amount,category,date;
+        private TextView amount, category;
+        private Button date;
 
         public ViewHolder(View view) {
             super(view);
@@ -53,7 +55,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         public void bindView(PurchaseRecord record) {
             amount.setText(String.valueOf(record.getAmount()));
             category.setText(record.getCategory());
-            date.setText(record.getDate());
+            date.setText(record.getDate().toString());
         }
     }
 }

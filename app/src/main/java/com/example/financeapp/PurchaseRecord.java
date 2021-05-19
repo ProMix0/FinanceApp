@@ -1,17 +1,18 @@
 package com.example.financeapp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class PurchaseRecord {
     private int amount;
     private String category;
-    private String date;
+    private Calendar date;
 
-    public PurchaseRecord(int amount,String category, String date){
-        this.amount=amount;
-        this.category=category;
-        this.date=date;
+    public PurchaseRecord(int amount, String category, Calendar date) {
+        this.amount = amount;
+        this.category = category;
+        this.date = date;
     }
 
     public int getAmount() {
@@ -22,11 +23,11 @@ public class PurchaseRecord {
         this.amount = amount;
     }
 
-    public String getDate() {
+    public Calendar getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Calendar date) {
         this.date = date;
     }
 
