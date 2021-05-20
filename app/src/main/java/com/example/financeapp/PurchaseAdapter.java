@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHolder> {
 
@@ -41,8 +43,8 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView amount, category;
-        private Button date;
+        private TextView amount, category, date;
+        private SimpleDateFormat formatter;
 
         public ViewHolder(View view) {
             super(view);
@@ -50,12 +52,15 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
             amount = view.findViewById(R.id.amount);
             category = view.findViewById(R.id.category);
             date = view.findViewById(R.id.date);
+
+            formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            formatter.setLenient(false);
         }
 
         public void bindView(PurchaseRecord record) {
             amount.setText(String.valueOf(record.getAmount()));
             category.setText(record.getCategory());
-            date.setText(record.getDate().toString());
+            date.setText(formatter.format(record.getDate().getTime()));
         }
     }
 }
