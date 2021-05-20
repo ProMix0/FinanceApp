@@ -1,7 +1,6 @@
 package com.example.financeapp;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class AddNewFragment extends Fragment {
 
-    Calendar date = Calendar.getInstance();
+    Calendar date;
     Button changeDateButton;
 
     @Override
@@ -48,7 +44,7 @@ public class AddNewFragment extends Fragment {
                 showCalendar();
             }
         });
-        onChangeDate.onDateSet(null, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+        clearDate();
 
         return view;
     }
@@ -88,7 +84,12 @@ public class AddNewFragment extends Fragment {
             // Очистка ввода
             ((EditText) findViewById(R.id.amount)).setText("");
             ((EditText) findViewById(R.id.category)).setText("");
-
+            clearDate();
         }
+    }
+
+    private void clearDate() {
+        date = Calendar.getInstance();
+        onChangeDate.onDateSet(null, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
     }
 }
