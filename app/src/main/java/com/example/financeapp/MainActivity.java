@@ -1,28 +1,17 @@
 package com.example.financeapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.test_layout);
 
-        // Получение элементов разметки
+        /*// Получение элементов разметки
         final TabLayout tabLayout = findViewById(R.id.tablayout);
         final ViewPager viewPager = findViewById(R.id.viewpager);
 
@@ -47,6 +36,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);*/
     }
 }
