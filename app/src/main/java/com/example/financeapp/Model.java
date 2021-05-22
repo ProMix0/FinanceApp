@@ -1,6 +1,6 @@
 package com.example.financeapp;
 
-import androidx.recyclerview.widget.RecyclerView;
+import com.example.financeapp.db.MyDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,13 @@ public class Model {
         return instance;
     }
 
+    private MyDatabase db;
+
     private Model() {
+    }
+
+    public void setDb(MyDatabase db) {
+        this.db = db;
     }
 
     private List<PurchaseRecord> data = new ArrayList<>();

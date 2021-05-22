@@ -3,19 +3,27 @@ package com.example.financeapp;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.financeapp.db.MyDatabase;
+import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.activity_main);
 
-        /*// Получение элементов разметки
+        Model.getInstance().setDb(Room.databaseBuilder(getApplicationContext(),
+                MyDatabase.class, "purchases-database").build());
+
+        // Получение элементов разметки
         final TabLayout tabLayout = findViewById(R.id.tablayout);
         final ViewPager viewPager = findViewById(R.id.viewpager);
 
-        // Натстройка ViewPager
+        // Настройка ViewPager
         MyFragmentAdapter fragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager(),
                 tabLayout.getTabCount());
         viewPager.setAdapter(fragmentAdapter);
@@ -36,6 +44,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        tabLayout.setupWithViewPager(viewPager);*/
+        tabLayout.setupWithViewPager(viewPager);
     }
 }
