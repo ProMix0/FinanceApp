@@ -1,19 +1,16 @@
 package com.example.financeapp;
 
-import androidx.annotation.NonNull;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.financeapp.db.PurchaseRecord;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHolder> {
@@ -26,7 +23,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.purchase_view, viewGroup, false);
+                .inflate(R.layout.purchase_fragment, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -43,14 +40,15 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView amount, category, date;
+        private TextView amount, date;
         private SimpleDateFormat formatter;
+        private CategoriesFlexbox categories;
 
         public ViewHolder(View view) {
             super(view);
 
             amount = view.findViewById(R.id.amount);
-            category = view.findViewById(R.id.category);
+            //categories = (CategoriesFlexbox)((MainActivity)view.getContext()).getFragmentManager().findFragmentById(R.id.category);
             date = view.findViewById(R.id.date);
 
             formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -58,8 +56,9 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         }
 
         public void bindView(PurchaseRecord record) {
-            amount.setText(String.valueOf(record.getAmount()));
-            category.setText(record.getCategory());
+            amount.setText(String.valueOf(record.getCost()));
+            categories.clear();
+            categories.addCategories(record.getCategories());
             date.setText(formatter.format(record.getDate().getTime()));
         }
     }

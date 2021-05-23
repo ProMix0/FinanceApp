@@ -26,15 +26,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:textSize="30sp"
-        android:text="Categories:"/>
-    <EditText
+        android:text="Categories:" />
+
+    <fragment
+        android:name="com.example.financeapp.CategoriesFlexbox"
+        tools:layout="@layout/categories_fragment"
         android:id="@+id/category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:autofillHints=""
         android:inputType="none"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor"
+        android:orientation="vertical" />
 
     <TextView
         android:layout_width="wrap_content"

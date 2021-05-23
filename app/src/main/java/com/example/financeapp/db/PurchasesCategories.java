@@ -17,4 +17,9 @@ public class PurchasesCategories {
     long purchaseId;
     @ColumnInfo(index = true)
     long categoryId;
+
+    public PurchasesCategories(long purchaseId, long categoryId) {
+        this.categoryId = categoryId;
+        this.purchaseId = purchaseId;
+    }
 }

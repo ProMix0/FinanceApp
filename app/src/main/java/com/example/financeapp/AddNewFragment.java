@@ -12,12 +12,17 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.financeapp.db.Category;
+import com.example.financeapp.db.PurchaseRecord;
+
 import java.util.Calendar;
+import java.util.List;
 
 public class AddNewFragment extends Fragment {
 
     Calendar date;
     Button changeDateButton;
+    CategoriesFlexbox categories;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,21 +35,13 @@ public class AddNewFragment extends Fragment {
 
         // Установка обработчика нажатия кнопке
         Button button = view.findViewById(R.id.button_create);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddRecord();
-            }
-        });
+        button.setOnClickListener(v -> onAddRecord());
 
         changeDateButton = view.findViewById(R.id.button_change_date);
-        changeDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCalendar();
-            }
-        });
+        changeDateButton.setOnClickListener(v -> showCalendar());
         clearDate();
+
+        categories = (CategoriesFlexbox) getFragmentManager().findFragmentById(R.id.category);
 
         return view;
     }
@@ -73,17 +70,21 @@ public class AddNewFragment extends Fragment {
     public void onAddRecord() {
         // Получение введённых данных
         int amount = Integer.parseInt(((EditText) findViewById(R.id.amount)).getText().toString());
-        String category = ((EditText) findViewById(R.id.category)).getText().toString();
+        List<Category> categories = this.categories.getCategories();
 
         // Проверка данных
-        if (!(amount == 0) && !category.isEmpty() && date != null) {
+        if (!(amount == 0) && !categories.isEmpty() && date != null) {
 
             // Добавление записи
-            Model.getInstance().addItem(new PurchaseRecord(amount, category, date));
+            PurchaseRecord record = new PurchaseRecord();
+            record.setCost(amount);
+            record.setDate(date);
+            record.setCategories(categories);
+            Model.getInstance().addItem(record);
 
             // Очистка ввода
             ((EditText) findViewById(R.id.amount)).setText("");
-            ((EditText) findViewById(R.id.category)).setText("");
+            this.categories.clear();
             clearDate();
         }
     }
