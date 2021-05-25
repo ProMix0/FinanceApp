@@ -46,6 +46,10 @@ public class PurchaseRecord {
         purchase.date = date;
     }
 
+    public String getDateAsString() {
+        return purchase.date.get(Calendar.DAY_OF_MONTH) + "/" + (purchase.date.get(Calendar.MONTH) + 1) + "/" + purchase.date.get(Calendar.YEAR);
+    }
+
     public int getCost() {
         return purchase.cost;
     }
