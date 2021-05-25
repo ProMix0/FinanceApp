@@ -14,13 +14,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.financeapp.db.Category;
 
-public class CategoryView extends Fragment {
+public class CategoryFragment extends Fragment {
 
     Category category;
     EditText editText;
     CategoriesFlexbox parent;
 
-    public CategoryView(CategoriesFlexbox parent, Category category) {
+    public CategoryFragment(CategoriesFlexbox parent, Category category) {
         super();
         this.parent = parent;
         this.category = category;

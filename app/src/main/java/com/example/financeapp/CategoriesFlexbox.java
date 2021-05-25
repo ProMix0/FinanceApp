@@ -10,15 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.financeapp.db.Category;
+import com.example.financeapp.db.PurchaseRecord;
 import com.google.android.flexbox.FlexboxLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesFlexbox extends Fragment {
 
     FlexboxLayout flexbox;
-    List<CategoryView> items = new ArrayList<>();
+    List<CategoryFragment> items;
+    List<Category> categories;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,13 +41,20 @@ public class CategoriesFlexbox extends Fragment {
         return view;
     }
 
-    public void deleteCategory(CategoryView category) {
+    public void bindPurchase(PurchaseRecord purchase){
+        clear();
+        categories=purchase.getCategories();
+    }
+
+    public void deleteCategory(CategoryFragment category) {
+        categories.remove(category.category);
         items.remove(category);
         flexbox.removeView(category.getView());
     }
 
     public void addCategory(Category category) {
-        CategoryView temp = new CategoryView(this, category);
+        CategoryFragment temp = new CategoryFragment(this, category);
+        categories.add(category);
         items.add(0, temp);
         flexbox.addView(temp.getView(), 0);
     }
@@ -55,14 +63,6 @@ public class CategoriesFlexbox extends Fragment {
         for (int i = 0; i < list.size(); i++) {
             addCategory(list.get(i));
         }
-    }
-
-    public List<Category> getCategories() {
-        List<Category> result = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            result.add(new Category(0, items.get(i).category.getName()));
-        }
-        return result;
     }
 
     public void clear() {

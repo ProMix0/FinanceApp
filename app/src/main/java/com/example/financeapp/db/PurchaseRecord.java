@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PurchaseRecord {
     @Embedded
-    Purchase purchase;
+    Purchase purchase=new Purchase();
     @Relation(
             parentColumn = "id",
             entity = Category.class,
@@ -20,7 +20,7 @@ public class PurchaseRecord {
                     parentColumn = "purchaseId",
                     entityColumn = "categoryId")
     )
-    List<Category> categories;
+    List<Category> categories=new ArrayList<>();
 
     public Purchase getPurchase() {
         return purchase;
