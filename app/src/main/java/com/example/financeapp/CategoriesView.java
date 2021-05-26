@@ -19,6 +19,7 @@ public class CategoriesView extends FrameLayout {
     FlexboxLayout flexbox;
     List<CategoryView> items = new ArrayList<>();
     List<Category> categories;
+    PurchaseRecord parent;
 
     public CategoriesView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -34,11 +35,13 @@ public class CategoriesView extends FrameLayout {
     public void bindPurchase(PurchaseRecord purchase) {
         clear();
         categories = purchase.getCategories();
+        parent = purchase;
         addCategories(categories);
     }
 
     public void deleteCategory(CategoryView category) {
         categories.remove(category.category);
+        Model.getInstance().delete(parent, category.category);
         items.remove(category);
         flexbox.removeView(category);
     }

@@ -8,6 +8,7 @@ import com.example.financeapp.db.MyDatabase;
 import com.example.financeapp.db.PurchaseRecord;
 import com.example.financeapp.db.PurchasesCategories;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -31,7 +32,11 @@ public class Model {
 
     public void setDb(MyDatabase db) {
         this.dao = db.getMyDao();
-        executor.execute(() -> data = dao.getAllPurchases());
+        executor.execute(() ->
+        {
+            data = dao.getAllPurchases();
+            Collections.sort(data, (o1, o2) -> o2.getDateAsString().compareTo(o1.getDateAsString()));
+        });
     }
 
     private List<PurchaseRecord> data;
@@ -43,6 +48,7 @@ public class Model {
     public void addItem(PurchaseRecord record) {
         new ItemInserter(adapter, dao, data, record).execute();
     }
+
 
     private static class ItemInserter extends AsyncTask<Void, Void, Void> {
 
@@ -67,6 +73,7 @@ public class Model {
                 dao.insert(new PurchasesCategories(record.getPurchase().getId(), list.get(i).getId()));
             }
             data.add(record);
+            Collections.sort(data, (o1, o2) -> o2.getDateAsString().compareTo(o1.getDateAsString()));
 
             return null;
         }
@@ -77,8 +84,59 @@ public class Model {
         }
     }
 
+    public void delete(PurchaseRecord parent, Category category) {
+
+    }
+
+    private static class ItemDeleter extends AsyncTask<Void, Void, Void> {
+
+        private Category category;
+        private MyDAO dao;
+        private PurchaseRecord record;
+
+        public ItemDeleter(MyDAO dao, PurchaseRecord record, Category category) {
+            this.dao = dao;
+            this.record = record;
+            this.category = category;
+        }
+
+        @Override
+        protected Void doInBackground(Void... aVoid) {
+            dao.delete(new PurchasesCategories(record.getId(), category.getId()));
+
+            return null;
+        }
+    }
+
     public int size() {
         return data.size();
+    }
+
+    public void saveData() {
+        new ItemUpdater(dao, data).execute();
+    }
+
+    private static class ItemUpdater extends AsyncTask<Void, Void, Void> {
+
+        private MyDAO dao;
+        private List<PurchaseRecord> data;
+
+        public ItemUpdater(MyDAO dao, List<PurchaseRecord> data) {
+            this.dao = dao;
+            this.data = data;
+        }
+
+        @Override
+        protected Void doInBackground(Void... aVoid) {
+            for (PurchaseRecord record : data) {
+                dao.update(record.getPurchase());
+                for (Category category : record.getCategories()) {
+                    dao.update(category);
+                }
+            }
+
+            return null;
+        }
     }
 
 

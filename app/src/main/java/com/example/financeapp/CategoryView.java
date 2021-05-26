@@ -3,6 +3,7 @@ package com.example.financeapp;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -14,6 +15,10 @@ public class CategoryView extends FrameLayout {
     Category category;
     EditText editText;
     CategoriesView parent;
+
+    public CategoryView(Context context, AttributeSet attr) {
+        super(context, attr);
+    }
 
     public CategoryView(Context context, CategoriesView parent, Category category) {
         super(context);

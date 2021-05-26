@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class DateConverter {
 
-    static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+    static SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
 
     @TypeConverter
     public static Calendar stringToDate(String string) {

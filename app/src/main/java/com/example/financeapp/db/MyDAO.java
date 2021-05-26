@@ -45,7 +45,7 @@ public interface MyDAO {
     void update(PurchasesCategories purchasesCategories);
 
     @Transaction
-    @Query("SELECT id,date,cost from purchases")
+    @Query("SELECT id,date,cost FROM purchases ORDER BY date DESC")
     List<com.example.financeapp.db.PurchaseRecord> getAllPurchases();
 
     @Transaction
