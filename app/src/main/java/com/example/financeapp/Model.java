@@ -23,12 +23,10 @@ public class Model {
     }
 
     private MyDAO dao;
-    private ItemInserter inserter;
 
     private Executor executor = Executors.newSingleThreadExecutor();
 
     private Model() {
-        inserter = new ItemInserter();
     }
 
     public void setDb(MyDatabase db) {
@@ -43,8 +41,7 @@ public class Model {
     }
 
     public void addItem(PurchaseRecord record) {
-        inserter.setFields(adapter, dao, data, record);
-        inserter.execute();
+        new ItemInserter(adapter, dao, data, record).execute();
     }
 
     private static class ItemInserter extends AsyncTask<Void, Void, Void> {
@@ -54,7 +51,7 @@ public class Model {
         private List<PurchaseRecord> data;
         private PurchaseRecord record;
 
-        public void setFields(PurchaseAdapter adapter, MyDAO dao, List<PurchaseRecord> data, PurchaseRecord record) {
+        public ItemInserter(PurchaseAdapter adapter, MyDAO dao, List<PurchaseRecord> data, PurchaseRecord record) {
             this.adapter = adapter;
             this.dao = dao;
             this.data = data;

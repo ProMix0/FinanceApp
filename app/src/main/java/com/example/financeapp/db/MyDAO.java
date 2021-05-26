@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static androidx.room.OnConflictStrategy.IGNORE;
+import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface MyDAO {
@@ -19,7 +20,7 @@ public interface MyDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Category category);
 
-    @Insert(onConflict = IGNORE)
+    @Insert(onConflict = REPLACE)
     long insert(Purchase purchase);
 
     @Insert(onConflict = IGNORE)

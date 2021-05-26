@@ -65,7 +65,12 @@ public class CategoriesView extends FrameLayout {
 
     public void clear() {
         while (items.size() > 0) {
-            deleteCategory(items.get(0));
+            deleteView(items.get(0));
         }
+    }
+
+    private void deleteView(CategoryView categoryView) {
+        items.remove(categoryView);
+        flexbox.removeView(categoryView);
     }
 }
