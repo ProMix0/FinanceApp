@@ -20,7 +20,10 @@ public class PurchaseRecord {
                     parentColumn = "purchaseId",
                     entityColumn = "categoryId")
     )
-    List<Category> categories=new ArrayList<>();
+    List<Category> categories = new ArrayList<>();
+
+    public PurchaseRecord() {
+    }
 
     public Purchase getPurchase() {
         return purchase;

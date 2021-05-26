@@ -1,13 +1,22 @@
 package com.example.financeapp;
 
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.financeapp.db.PurchaseRecord;
 
+import java.util.List;
+
 public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHolder> {
+
+    private List<PurchaseRecord> data;
+
+    public void setData(List<PurchaseRecord> list) {
+        data = list;
+    }
 
     public PurchaseAdapter() {
         Model.getInstance().setDataAdapter(this);
@@ -16,33 +25,35 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        PurchaseFragment purchase = new PurchaseFragment();
+        PurchaseView purchase = new PurchaseView(viewGroup.getContext());
+
+        purchase.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT));
 
         return new ViewHolder(purchase);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.bindView(Model.getInstance().getItem(position));
+        viewHolder.bindView(data.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return Model.getInstance().size();
+        return data.size();
     }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private PurchaseFragment purchase;
+        private PurchaseView purchase;
 
-        public ViewHolder(PurchaseFragment purchase) {
-            super(purchase.getView());
+        public ViewHolder(PurchaseView purchase) {
+            super(purchase);
             this.purchase = purchase;
         }
 
         public void bindView(PurchaseRecord record) {
-            purchase.categories.clear();
-            purchase.categories.addCategories(record.getCategories());
+            purchase.setPurchase(record);
         }
     }
 }

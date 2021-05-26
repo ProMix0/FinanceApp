@@ -3,6 +3,7 @@ package com.example.financeapp.db;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
@@ -10,16 +11,18 @@ import androidx.room.Update;
 import java.util.Calendar;
 import java.util.List;
 
+import static androidx.room.OnConflictStrategy.IGNORE;
+
 @Dao
 public interface MyDAO {
 
-    @Insert
-    void insert(Category category);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(Category category);
 
-    @Insert
-    void insert(Purchase purchase);
+    @Insert(onConflict = IGNORE)
+    long insert(Purchase purchase);
 
-    @Insert
+    @Insert(onConflict = IGNORE)
     void insert(PurchasesCategories purchasesCategories);
 
     @Delete

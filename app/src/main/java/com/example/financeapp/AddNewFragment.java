@@ -7,24 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.financeapp.db.Category;
 import com.example.financeapp.db.PurchaseRecord;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class AddNewFragment extends Fragment {
 
     Calendar date;
     Button changeDateButton;
     TextView cost;
-    CategoriesFlexbox categories;
+    CategoriesView categories;
 
     PurchaseRecord dataToAdd;
 
@@ -47,16 +44,12 @@ public class AddNewFragment extends Fragment {
         changeDateButton.setOnClickListener(v -> showCalendar());
         clearDate();
 
-        categories = (CategoriesFlexbox) getFragmentManager().findFragmentById(R.id.category);
+        categories = view.findViewById(R.id.categories_view);
 
         dataToAdd=new PurchaseRecord();
         categories.bindPurchase(dataToAdd);
 
         return view;
-    }
-
-    private View findViewById(int category) {
-        return getView().findViewById(category);
     }
 
     public void showCalendar() {
@@ -78,7 +71,12 @@ public class AddNewFragment extends Fragment {
 
     public void onAddRecord() {
         // Получение введённых данных
-        int amount = Integer.parseInt(cost.getText().toString());
+        int amount;
+        try {
+            amount = Integer.parseInt(cost.getText().toString());
+        } catch (Exception ex) {
+            return;
+        }
 
         // Проверка данных
         if (!(amount == 0) && !dataToAdd.getCategories().isEmpty()) {
