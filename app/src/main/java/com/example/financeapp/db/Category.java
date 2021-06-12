@@ -16,6 +16,12 @@ public class Category {
         this.name = name;
     }
 
+    @Override
+    public Category clone() {
+        Category clone = new Category(getId(), getName());
+        return clone;
+    }
+
     public long getId() {
         return id;
     }

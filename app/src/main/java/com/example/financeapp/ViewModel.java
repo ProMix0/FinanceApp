@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class Model {
+public class ViewModel {
 
     // Паттерн Singleton
-    private static Model instance;
+    private static ViewModel instance;
 
-    public static Model getInstance() {
-        if (instance == null) instance = new Model();
+    public static ViewModel getInstance() {
+        if (instance == null) instance = new ViewModel();
         return instance;
     }
 
@@ -27,7 +27,7 @@ public class Model {
 
     private Executor executor = Executors.newSingleThreadExecutor();
 
-    private Model() {
+    private ViewModel() {
     }
 
     public void setDb(MyDatabase db) {
@@ -37,6 +37,10 @@ public class Model {
             data = dao.getAllPurchases();
             Collections.sort(data, (o1, o2) -> o2.getDateAsString().compareTo(o1.getDateAsString()));
         });
+    }
+
+    public PurchaseRecord getEmptyRecord() {
+        return new PurchaseRecord();
     }
 
     private List<PurchaseRecord> data;

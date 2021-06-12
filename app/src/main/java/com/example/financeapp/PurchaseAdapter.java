@@ -19,7 +19,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
     }
 
     public PurchaseAdapter() {
-        Model.getInstance().setDataAdapter(this);
+        ViewModel.getInstance().setDataAdapter(this);
     }
 
     @NonNull
@@ -53,7 +53,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         }
 
         public void bindView(PurchaseRecord record) {
-            purchase.setPurchase(record);
+            purchase.bindPurchase(record);
         }
     }
 }

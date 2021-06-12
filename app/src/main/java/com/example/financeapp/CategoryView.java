@@ -14,13 +14,13 @@ public class CategoryView extends FrameLayout {
 
     Category category;
     EditText editText;
-    CategoriesView parent;
+    CategoriesList parent;
 
     public CategoryView(Context context, AttributeSet attr) {
         super(context, attr);
     }
 
-    public CategoryView(Context context, CategoriesView parent, Category category) {
+    public CategoryView(Context context, CategoriesList parent, Category category) {
         super(context);
 
         inflate(context, R.layout.category_view, this);
@@ -42,8 +42,8 @@ public class CategoryView extends FrameLayout {
             }
         });
 
-        ImageButton addButton = findViewById(R.id.delete);
-        addButton.setOnClickListener(v -> parent.deleteCategory(this));
+        ImageButton deleteButton = findViewById(R.id.delete);
+        deleteButton.setOnClickListener(v -> parent.deleteCategory(this));
 
         this.parent = parent;
         this.category = category;

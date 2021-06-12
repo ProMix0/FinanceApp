@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Model.getInstance().setDb(Room.databaseBuilder(getApplicationContext(),
+        ViewModel.getInstance().setDb(Room.databaseBuilder(getApplicationContext(),
                 MyDatabase.class, "purchases-database").build());
 
         // Получение элементов разметки

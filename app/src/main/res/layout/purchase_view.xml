@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="12/01/99" />
 
-    <com.example.financeapp.CategoriesView
+    <com.example.financeapp.CategoriesList
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +36,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount"
-        tools:layout="@layout/categories_view" />
+        tools:layout="@layout/categories_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

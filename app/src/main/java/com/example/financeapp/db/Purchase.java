@@ -16,6 +16,15 @@ public class Purchase {
         return id;
     }
 
+    @Override
+    public Purchase clone() {
+        Purchase clone = new Purchase();
+        clone.setId(getId());
+        clone.setCost(getCost());
+        clone.setDate((Calendar) getDate().clone());
+        return clone;
+    }
+
     public void setId(long id) {
         this.id = id;
     }

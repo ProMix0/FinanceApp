@@ -31,7 +31,7 @@ public class ViewPurchasesFragment extends Fragment {
 
     @Override
     public void onStop() {
-        Model.getInstance().saveData();
+        ViewModel.getInstance().saveData();
 
         super.onStop();
     }

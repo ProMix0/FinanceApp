@@ -4,13 +4,14 @@ import androidx.room.Embedded;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class PurchaseRecord {
+public class PurchaseRecord implements Serializable, Cloneable {
     @Embedded
-    Purchase purchase=new Purchase();
+    Purchase purchase = new Purchase();
     @Relation(
             parentColumn = "id",
             entity = Category.class,
@@ -21,8 +22,24 @@ public class PurchaseRecord {
                     entityColumn = "categoryId")
     )
     List<Category> categories = new ArrayList<>();
+    List<Category> deletedCategories = new ArrayList<>();
 
     public PurchaseRecord() {
+    }
+
+    @Override
+    public PurchaseRecord clone() {
+        PurchaseRecord clone = new PurchaseRecord();
+        clone.setPurchase(purchase.clone());
+        List<Category> newCategories = clone.getCategories();
+        for (Category category : categories) {
+            newCategories.add(category.clone());
+        }
+        List<Category> newDeletedCategories = clone.getDeletedCategories();
+        for (Category category : deletedCategories) {
+            newDeletedCategories.add(category.clone());
+        }
+        return clone;
     }
 
     public Purchase getPurchase() {
@@ -61,27 +78,15 @@ public class PurchaseRecord {
         purchase.cost = cost;
     }
 
-    public List<String> getCategoriesNames() {
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < categories.size(); i++) {
-            result.add(categories.get(i).name);
-        }
-        return result;
-    }
-
-    public void setCategoriesNames(List<String> categories) {
-        this.categories = new ArrayList<>();
-        for (int i = 0; i < categories.size(); i++) {
-            Category temp = new Category(0, categories.get(i));
-            this.categories.add(temp);
-        }
-    }
-
     public List<Category> getCategories() {
         return categories;
     }
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<Category> getDeletedCategories() {
+        return deletedCategories;
     }
 }

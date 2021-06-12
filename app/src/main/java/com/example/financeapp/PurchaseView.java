@@ -9,7 +9,7 @@ import com.example.financeapp.db.PurchaseRecord;
 public class PurchaseView extends FrameLayout {
 
     TextView cost, date;
-    CategoriesView categories;
+    CategoriesList categories;
     PurchaseRecord record;
 
     public PurchaseView(Context context) {
@@ -22,10 +22,10 @@ public class PurchaseView extends FrameLayout {
         categories = findViewById(R.id.category);
     }
 
-    public void setPurchase(PurchaseRecord record) {
+    public void bindPurchase(PurchaseRecord record) {
         this.record = record;
         cost.setText(record.getCost() + "");
         date.setText(record.getDateAsString());
-        categories.bindPurchase(record);
+        categories.bindCategories(record.getCategories());
     }
 }

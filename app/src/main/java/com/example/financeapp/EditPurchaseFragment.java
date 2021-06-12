@@ -16,43 +16,63 @@ import com.example.financeapp.db.PurchaseRecord;
 
 import java.util.Calendar;
 
-public class AddNewFragment extends Fragment {
+public class EditPurchaseFragment extends Fragment {
 
-    Calendar date;
     Button changeDateButton;
     TextView cost;
-    CategoriesView categories;
+    CategoriesList categories;
 
-    PurchaseRecord dataToAdd;
+    PurchaseRecord record;
+
+    ICallback onConfirmCallback;
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("dataToAdd", record);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            record = (PurchaseRecord) savedInstanceState.getSerializable("dataToAdd");
+        } else {
+            record = ViewModel.getInstance().getEmptyRecord();
+        }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_new_fragment, container, false);
+        View view = inflater.inflate(R.layout.edit_fragment, container, false);
 
         // Установка обработчика нажатия кнопке
         Button button = view.findViewById(R.id.button_create);
-        button.setOnClickListener(v -> onAddRecord());
+        button.setOnClickListener(v -> onConfirmClick());
 
-        cost=view.findViewById(R.id.amount);
+        cost = view.findViewById(R.id.amount);
 
         changeDateButton = view.findViewById(R.id.button_change_date);
         changeDateButton.setOnClickListener(v -> showCalendar());
-        clearDate();
 
         categories = view.findViewById(R.id.categories_view);
-
-        dataToAdd=new PurchaseRecord();
-        categories.bindPurchase(dataToAdd);
 
         return view;
     }
 
+    public void bindRecord(PurchaseRecord record) {
+        this.record = record;
+
+        categories.bindCategories(this.record.getCategories(), this.record.getDeletedCategories());
+
+        Calendar date = record.getDate();
+        onChangeDate.onDateSet(null, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+    }
+
     public void showCalendar() {
+        Calendar date = record.getDate();
         new DatePickerDialog(this.getContext(), onChangeDate,
                 date.get(Calendar.YEAR),
                 date.get(Calendar.MONTH),
@@ -62,6 +82,7 @@ public class AddNewFragment extends Fragment {
 
     DatePickerDialog.OnDateSetListener onChangeDate = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            Calendar date = record.getDate();
             date.set(Calendar.YEAR, year);
             date.set(Calendar.MONTH, monthOfYear);
             date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -69,33 +90,24 @@ public class AddNewFragment extends Fragment {
         }
     };
 
-    public void onAddRecord() {
+    public void onConfirmClick() {
         // Получение введённых данных
         int amount;
         try {
             amount = Integer.parseInt(cost.getText().toString());
         } catch (Exception ex) {
-            return;
+            amount = 0;
         }
+        record.setCost(amount);
 
-        // Проверка данных
-        if (!(amount == 0) && !dataToAdd.getCategories().isEmpty()) {
-
-            // Добавление записи
-            dataToAdd.setCost(amount);
-            dataToAdd.setDate(date);
-            Model.getInstance().addItem(dataToAdd);
-
-            // Очистка ввода
-            cost.setText("");
-            dataToAdd=new PurchaseRecord();
-            categories.bindPurchase(dataToAdd);
-            clearDate();
-        }
+        if (onConfirmCallback != null) onConfirmCallback.callback(record);
     }
 
-    private void clearDate() {
-        date = Calendar.getInstance();
-        onChangeDate.onDateSet(null, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+    public void setOnConfirm(ICallback callback) {
+        onConfirmCallback = callback;
+    }
+
+    public interface ICallback {
+        void callback(PurchaseRecord record);
     }
 }
