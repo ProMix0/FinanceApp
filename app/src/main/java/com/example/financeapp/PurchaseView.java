@@ -26,6 +26,6 @@ public class PurchaseView extends FrameLayout {
         this.record = record;
         cost.setText(record.getCost() + "");
         date.setText(record.getDateAsString());
-        categories.bindCategories(record.getCategories());
+        categories.bindCategories(record.getCategories(), record.getCategoriesToDelete());
     }
 }

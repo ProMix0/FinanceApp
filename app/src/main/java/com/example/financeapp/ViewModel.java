@@ -35,7 +35,7 @@ public class ViewModel {
         executor.execute(() ->
         {
             data = dao.getAllPurchases();
-            Collections.sort(data, (o1, o2) -> o2.getDateAsString().compareTo(o1.getDateAsString()));
+            Collections.sort(data, (o1, o2) -> (int) (o2.getDate().getTimeInMillis() - o1.getDate().getTimeInMillis()));
         });
     }
 

@@ -1,6 +1,7 @@
 package com.example.financeapp;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +11,13 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.financeapp.db.PurchaseRecord;
 
 import java.util.Calendar;
 
-public class EditPurchaseFragment extends Fragment {
+public class EditPurchaseFragment extends DialogFragment {
 
     Button changeDateButton;
     TextView cost;
@@ -37,16 +38,27 @@ public class EditPurchaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            record = (PurchaseRecord) savedInstanceState.getSerializable("dataToAdd");
-        } else {
-            record = ViewModel.getInstance().getEmptyRecord();
+        if (record == null)
+            if (savedInstanceState != null) {
+                record = (PurchaseRecord) savedInstanceState.getSerializable("dataToAdd");
+            } else {
+                record = ViewModel.getInstance().getEmptyRecord();
+            }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.edit_fragment, container, false);
+        View view = inflater.inflate(R.layout.edit_purchase_fragment, container, false);
 
         // Установка обработчика нажатия кнопке
         Button button = view.findViewById(R.id.button_create);
@@ -59,16 +71,24 @@ public class EditPurchaseFragment extends Fragment {
 
         categories = view.findViewById(R.id.categories_view);
 
+        bindRecord(record);
+
         return view;
     }
 
     public void bindRecord(PurchaseRecord record) {
         this.record = record;
 
-        categories.bindCategories(this.record.getCategories(), this.record.getDeletedCategories());
+        cost.setText(record.getCost() + "");
+
+        categories.bindCategories(this.record.getCategories(), this.record.getCategoriesToDelete());
 
         Calendar date = record.getDate();
         onChangeDate.onDateSet(null, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+    }
+
+    public void lateBind(PurchaseRecord record) {
+        this.record = record;
     }
 
     public void showCalendar() {
@@ -105,9 +125,5 @@ public class EditPurchaseFragment extends Fragment {
 
     public void setOnConfirm(ICallback callback) {
         onConfirmCallback = callback;
-    }
-
-    public interface ICallback {
-        void callback(PurchaseRecord record);
     }
 }

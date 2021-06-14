@@ -24,9 +24,10 @@ public class ViewPurchasesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Установка адаптера
-        purchaseAdapter = new PurchaseAdapter();
+        purchaseAdapter = new PurchaseAdapter(getFragmentManager());
         RecyclerView recyclerView = view.findViewById(R.id.purchases);
         recyclerView.setAdapter(purchaseAdapter);
+        ViewModel.getInstance().setDataAdapter(purchaseAdapter);
     }
 
     @Override

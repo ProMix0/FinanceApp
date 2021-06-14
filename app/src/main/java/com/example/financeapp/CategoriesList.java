@@ -65,7 +65,9 @@ public class CategoriesList extends FrameLayout {
 
     public void clear() {
         views.clear();
-        flexbox.removeAllViews();
+        while (flexbox.getChildCount() > 1) {
+            flexbox.removeViewAt(0);
+        }
     }
 
     private void deleteView(CategoryView categoryView) {

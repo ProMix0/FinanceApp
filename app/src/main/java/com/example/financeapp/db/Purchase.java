@@ -3,13 +3,14 @@ package com.example.financeapp.db;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 @Entity(tableName = "purchases")
-public class Purchase {
+public class Purchase implements Serializable {
     @PrimaryKey(autoGenerate = true)
     long id;
-    Calendar date;
+    Calendar date = Calendar.getInstance();
     int cost;
 
     public long getId() {

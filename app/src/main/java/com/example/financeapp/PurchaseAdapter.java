@@ -1,9 +1,11 @@
 package com.example.financeapp;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.financeapp.db.PurchaseRecord;
@@ -14,12 +16,14 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
     private List<PurchaseRecord> data;
 
+    private FragmentManager manager;
+
     public void setData(List<PurchaseRecord> list) {
         data = list;
     }
 
-    public PurchaseAdapter() {
-        ViewModel.getInstance().setDataAdapter(this);
+    public PurchaseAdapter(FragmentManager manager) {
+        this.manager = manager;
     }
 
     @NonNull
@@ -30,12 +34,15 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         purchase.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT));
 
-        return new ViewHolder(purchase);
+        return new ViewHolder(purchase, manager);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.bindView(data.get(position));
+        viewHolder.bindView(data.get(position), record -> {
+            data.set(position, record);
+            notifyItemChanged(position);
+        });
     }
 
     @Override
@@ -44,16 +51,33 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private PurchaseView purchase;
+        private ICallback onChange;
+        private FragmentManager manager;
 
-        public ViewHolder(PurchaseView purchase) {
-            super(purchase);
-            this.purchase = purchase;
+        public ViewHolder(PurchaseView view, FragmentManager manager) {
+            super(view);
+            this.purchase = view;
+            this.manager = manager;
+
+            view.setOnClickListener(this);
         }
 
-        public void bindView(PurchaseRecord record) {
+        public void bindView(PurchaseRecord record, ICallback onChange) {
             purchase.bindPurchase(record);
+            this.onChange = onChange;
+        }
+
+        @Override
+        public void onClick(View v) {
+            EditPurchaseFragment dialog = new EditPurchaseFragment();
+            dialog.setOnConfirm(record -> {
+                onChange.callback(record);
+                dialog.dismiss();
+            });
+            dialog.lateBind(purchase.record);
+            dialog.showNow(manager, "editDialog");
         }
     }
 }
