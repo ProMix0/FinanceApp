@@ -22,20 +22,18 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="11dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintBottom_toTopOf="@+id/category"
+        app:layout_constraintBottom_toTopOf="@+id/chip_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="12/01/99" />
 
-    <com.example.financeapp.CategoriesList
-        android:id="@+id/category"
-        android:layout_width="wrap_content"
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amount"
-        tools:layout="@layout/categories_list" />
+        app:layout_constraintTop_toBottomOf="@+id/amount" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

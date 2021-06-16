@@ -13,15 +13,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.financeapp.db.Category;
 import com.example.financeapp.db.PurchaseRecord;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.Calendar;
 
 public class EditPurchaseFragment extends DialogFragment {
 
+    TextView amountTextView;
     Button changeDateButton;
-    TextView cost;
-    CategoriesList categories;
+    TextView newCategoryTextView;
+    Button addCategoryButton;
+    ChipGroup chipGroup;
 
     PurchaseRecord record;
 
@@ -64,24 +68,54 @@ public class EditPurchaseFragment extends DialogFragment {
         Button button = view.findViewById(R.id.button_create);
         button.setOnClickListener(v -> onConfirmClick());
 
-        cost = view.findViewById(R.id.amount);
+        amountTextView = view.findViewById(R.id.amount);
 
         changeDateButton = view.findViewById(R.id.button_change_date);
         changeDateButton.setOnClickListener(v -> showCalendar());
 
-        categories = view.findViewById(R.id.categories_view);
+        chipGroup = view.findViewById(R.id.chip_group_closeable);
+
+        newCategoryTextView = view.findViewById(R.id.new_category);
+
+        addCategoryButton = view.findViewById(R.id.add_category);
+        addCategoryButton.setOnClickListener(clickView -> {
+            String text = newCategoryTextView.getText().toString();
+            if (text.compareTo("") == 0) return;
+            newCategoryTextView.setText("");
+            addNewCategory(text);
+        });
 
         bindRecord(record);
 
         return view;
     }
 
+    private void addNewCategory(String text) {
+        Category newCategory = new Category(text);
+        record.getCategories().add(newCategory);
+        addChip(newCategory);
+    }
+
+    private void addChip(Category category) {
+        MyChip temp = new MyChip(getContext(), true);
+        temp.setCategory(category);
+        temp.setOnCloseIconClickListener(view -> {
+            MyChip chip = (MyChip) view;
+            record.getCategories().remove(chip.getCategory());
+            chipGroup.removeView(chip);
+        });
+        chipGroup.addView(temp);
+    }
+
     public void bindRecord(PurchaseRecord record) {
         this.record = record;
 
-        cost.setText(record.getCost() + "");
+        amountTextView.setText(record.getCost() + "");
 
-        categories.bindCategories(this.record.getCategories(), this.record.getCategoriesToDelete());
+        chipGroup.removeAllViews();
+        for (Category category : record.getCategories()) {
+            addChip(category);
+        }
 
         Calendar date = record.getDate();
         onChangeDate.onDateSet(null, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
@@ -114,7 +148,7 @@ public class EditPurchaseFragment extends DialogFragment {
         // Получение введённых данных
         int amount;
         try {
-            amount = Integer.parseInt(cost.getText().toString());
+            amount = Integer.parseInt(amountTextView.getText().toString());
         } catch (Exception ex) {
             amount = 0;
         }

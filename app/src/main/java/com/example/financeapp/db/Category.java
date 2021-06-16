@@ -1,18 +1,26 @@
 package com.example.financeapp.db;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "categories",
         indices = {@Index(value = {"name"}, unique = true)})
-public class Category {
+public class Category implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    long id;
+    long id = -1;
     String name;
 
     public Category(long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    @Ignore
+    public Category(String name) {
         this.name = name;
     }
 
