@@ -29,11 +29,4 @@ public class ViewPurchasesFragment extends Fragment {
         recyclerView.setAdapter(purchaseAdapter);
         ViewModel.getInstance().setDataAdapter(purchaseAdapter);
     }
-
-    @Override
-    public void onStop() {
-        ViewModel.getInstance().saveData();
-
-        super.onStop();
-    }
 }

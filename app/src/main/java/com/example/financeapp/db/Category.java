@@ -11,7 +11,7 @@ import java.io.Serializable;
         indices = {@Index(value = {"name"}, unique = true)})
 public class Category implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    long id = -1;
+    long id;
     String name;
 
     public Category(long id, String name) {

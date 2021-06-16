@@ -35,7 +35,7 @@ public class ViewModel {
         executor.execute(() ->
         {
             data = dao.getAllPurchases();
-            Collections.sort(data, (o1, o2) -> (int) (o2.getDate().getTimeInMillis() - o1.getDate().getTimeInMillis()));
+            sortData();
         });
     }
 
@@ -71,13 +71,12 @@ public class ViewModel {
         @Override
         protected Void doInBackground(Void... aVoid) {
             record.getPurchase().setId(dao.insert(record.getPurchase()));
-            List<Category> list = record.getCategories();
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).setId(dao.insert(list.get(i)));
-                dao.insert(new PurchasesCategories(record.getPurchase().getId(), list.get(i).getId()));
+            for (Category category : record.getCategories()) {
+                category.setId(dao.insert(category));
+                dao.insert(new PurchasesCategories(record.getPurchase().getId(), category.getId()));
             }
             data.add(record);
-            Collections.sort(data, (o1, o2) -> o2.getDateAsString().compareTo(o1.getDateAsString()));
+            ViewModel.getInstance().sortData();
 
             return null;
         }
@@ -86,6 +85,10 @@ public class ViewModel {
         protected void onPostExecute(Void aVoid) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void sortData() {
+        Collections.sort(data, (o1, o2) -> (int) (o2.getDate().getTimeInMillis() - o1.getDate().getTimeInMillis()));
     }
 
     public void delete(PurchaseRecord parent, Category category) {
@@ -116,33 +119,35 @@ public class ViewModel {
         return data.size();
     }
 
-    public void saveData() {
-        new ItemUpdater(dao, data).execute();
+    public void update(PurchaseRecord record) {
+        new ItemUpdater(dao, record).execute();
     }
 
     private static class ItemUpdater extends AsyncTask<Void, Void, Void> {
 
         private MyDAO dao;
-        private List<PurchaseRecord> data;
+        private PurchaseRecord record;
 
-        public ItemUpdater(MyDAO dao, List<PurchaseRecord> data) {
+        public ItemUpdater(MyDAO dao, PurchaseRecord record) {
             this.dao = dao;
-            this.data = data;
+            this.record = record;
         }
 
         @Override
         protected Void doInBackground(Void... aVoid) {
-            for (PurchaseRecord record : data) {
-                dao.update(record.getPurchase());
-                for (Category category : record.getCategories()) {
-                    dao.update(category);
-                }
+            dao.update(record.getPurchase());
+            for (Category category : record.getCategories()) {
+                category.setId(dao.insert(category));
+                dao.insert(new PurchasesCategories(record.getPurchase().getId(), category.getId()));
+            }
+            for (Category category : record.getCategoriesToDelete()) {
+                PurchasesCategories toDelete = new PurchasesCategories(record.getPurchase().getId(), category.getId());
+                dao.delete(toDelete);
             }
 
             return null;
         }
     }
-
 
     private PurchaseAdapter adapter;
 

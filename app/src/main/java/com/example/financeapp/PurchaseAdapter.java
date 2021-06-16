@@ -42,6 +42,9 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         viewHolder.bindView(data.get(position), record -> {
             data.set(position, record);
             notifyItemChanged(position);
+            ViewModel.getInstance().sortData();
+            notifyItemMoved(position, data.indexOf(record));
+            ViewModel.getInstance().update(record);
         });
     }
 
@@ -49,7 +52,6 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
     public int getItemCount() {
         return data.size();
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private PurchaseView purchase;
