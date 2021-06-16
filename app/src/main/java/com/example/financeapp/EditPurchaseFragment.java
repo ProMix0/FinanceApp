@@ -102,6 +102,7 @@ public class EditPurchaseFragment extends DialogFragment {
         temp.setOnCloseIconClickListener(view -> {
             MyChip chip = (MyChip) view;
             record.getCategories().remove(chip.getCategory());
+            record.getCategoriesToDelete().add(chip.getCategory());
             chipGroup.removeView(chip);
         });
         chipGroup.addView(temp);
