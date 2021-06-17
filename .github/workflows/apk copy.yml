@@ -15,7 +15,6 @@ jobs:
     
     steps:
     - run: |
-        del Files\FinanceApp.apk
         move /y app\build\outputs\apk\debug\app-debug.apk Files\FinanceApp.apk
         
       
