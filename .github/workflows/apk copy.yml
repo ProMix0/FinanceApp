@@ -1,20 +1,32 @@
-# This is a basic workflow that is manually triggered
-
 name: Manual workflow
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   push:
+    branches: master
+  workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  moveapk:
+  copyapk:
     runs-on: windows-2019
+    defaults:
+      run:
+        shell: cmd
+    
+    env:
+      USER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+      USER_NAME: "github-actions[bot]"
     
     steps:
-    - run: |
+    - uses: actions/checkout@v2
+    
+    - name: git config
+      run: |
+        git config --local user.email "$USER_EMAIL"
+        git config --local user.name "$USER_NAME"
+        git checkout "${{ github.head_ref }}"
+    
+    - name: copy
+      run: |
         copy /y app\build\outputs\apk\debug\app-debug.apk Files\FinanceApp.apk
         
-      
+        git add .
+        git commit -m ".apk copied"
