@@ -53,7 +53,6 @@ public class ViewModel {
         new ItemInserter(adapter, dao, data, record).execute();
     }
 
-
     private static class ItemInserter extends AsyncTask<Void, Void, Void> {
 
         PurchaseAdapter adapter;

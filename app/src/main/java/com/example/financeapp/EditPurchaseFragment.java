@@ -30,6 +30,7 @@ public class EditPurchaseFragment extends DialogFragment {
     PurchaseRecord record;
 
     ICallback onConfirmCallback;
+    private Button button;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -65,7 +66,7 @@ public class EditPurchaseFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.edit_purchase_fragment, container, false);
 
         // Установка обработчика нажатия кнопке
-        Button button = view.findViewById(R.id.button_create);
+        button = view.findViewById(R.id.button_confirm);
         button.setOnClickListener(v -> onConfirmClick());
 
         amountTextView = view.findViewById(R.id.amount);

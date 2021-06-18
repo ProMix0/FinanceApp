@@ -10,6 +10,8 @@ import androidx.room.Update;
 import java.util.Calendar;
 import java.util.List;
 
+import static androidx.room.OnConflictStrategy.ABORT;
+import static androidx.room.OnConflictStrategy.IGNORE;
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
@@ -21,7 +23,8 @@ public interface MyDAO {
     @Insert(onConflict = REPLACE)
     long insert(Purchase purchase);
 
-    @Insert(onConflict = REPLACE)
+    //@Insert(onConflict = IGNORE)
+    @Insert
     void insert(PurchasesCategories purchasesCategories);
 
     @Delete
