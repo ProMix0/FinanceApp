@@ -55,7 +55,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private PurchaseView purchase;
-        private ICallback onChange;
+        private Callback onChange;
         private FragmentManager manager;
 
         public ViewHolder(PurchaseView view, FragmentManager manager) {
@@ -66,7 +66,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
             view.setOnClickListener(this);
         }
 
-        public void bindView(PurchaseRecord record, ICallback onChange) {
+        public void bindView(PurchaseRecord record, Callback onChange) {
             purchase.bindPurchase(record);
             this.onChange = onChange;
         }
@@ -74,12 +74,19 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         @Override
         public void onClick(View v) {
             EditPurchaseFragment dialog = new EditPurchaseFragment();
-            dialog.setOnConfirm(record -> {
-                onChange.callback(record);
-                dialog.dismiss();
+            dialog.setOnConfirm(new EditPurchaseFragment.Callback() {
+                @Override
+                public void callback(PurchaseRecord record) {
+                    onChange.callback(record);
+                    getFragment().dismiss();
+                }
             });
             dialog.lateBind(purchase.record);
             dialog.showNow(manager, "editDialog");
+        }
+
+        public interface Callback {
+            void callback(PurchaseRecord record);
         }
     }
 }

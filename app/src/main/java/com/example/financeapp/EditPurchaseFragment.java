@@ -17,6 +17,7 @@ import com.example.financeapp.db.Category;
 import com.example.financeapp.db.PurchaseRecord;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 public class EditPurchaseFragment extends DialogFragment {
@@ -29,14 +30,14 @@ public class EditPurchaseFragment extends DialogFragment {
 
     PurchaseRecord record;
 
-    ICallback onConfirmCallback;
-    private Button button;
+    Callback onConfirmCallback;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putSerializable("dataToAdd", record);
+        outState.putSerializable("onConfirmCallback", onConfirmCallback);
     }
 
     @Override
@@ -49,6 +50,8 @@ public class EditPurchaseFragment extends DialogFragment {
             } else {
                 record = ViewModel.getInstance().getEmptyRecord();
             }
+        if (onConfirmCallback == null && savedInstanceState != null)
+            setOnConfirm((Callback) savedInstanceState.getSerializable("onConfirmCallback"));
     }
 
     @Override
@@ -66,7 +69,7 @@ public class EditPurchaseFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.edit_purchase_fragment, container, false);
 
         // Установка обработчика нажатия кнопке
-        button = view.findViewById(R.id.button_confirm);
+        Button button = view.findViewById(R.id.button_confirm);
         button.setOnClickListener(v -> onConfirmClick());
 
         amountTextView = view.findViewById(R.id.amount);
@@ -159,7 +162,22 @@ public class EditPurchaseFragment extends DialogFragment {
         if (onConfirmCallback != null) onConfirmCallback.callback(record);
     }
 
-    public void setOnConfirm(ICallback callback) {
+    public abstract static class Callback implements Serializable {
+        private EditPurchaseFragment fragment;
+
+        public abstract void callback(PurchaseRecord record);
+
+        public final EditPurchaseFragment getFragment() {
+            return fragment;
+        }
+
+        private void setFragment(EditPurchaseFragment fragment) {
+            this.fragment = fragment;
+        }
+    }
+
+    public void setOnConfirm(Callback callback) {
         onConfirmCallback = callback;
+        callback.setFragment(this);
     }
 }

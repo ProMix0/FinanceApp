@@ -4,6 +4,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.financeapp.db.PurchaseRecord;
+
 class MyFragmentAdapter extends FragmentPagerAdapter {
     int totalTabs;
 
@@ -18,10 +20,17 @@ class MyFragmentAdapter extends FragmentPagerAdapter {
 
         // Инициализация вкладок
         editPurchaseFragment = new EditPurchaseFragment();
-        editPurchaseFragment.setOnConfirm(record -> {
-            ViewModel.getInstance().addItem(record);
-            editPurchaseFragment.bindRecord(ViewModel.getInstance().getEmptyRecord());
+        editPurchaseFragment.setOnConfirm(new EditPurchaseFragment.Callback() {
+            @Override
+            public void callback(PurchaseRecord record) {
+                ViewModel.getInstance().addItem(record);
+                getFragment().bindRecord(ViewModel.getInstance().getEmptyRecord());
+            }
         });
+        /*editPurchaseFragment.setOnConfirm(record-> {
+            ViewModel.getInstance().addItem(record);
+            fragment.bindRecord(ViewModel.getInstance().getEmptyRecord());
+        });*/
         viewPurchasesFragment = new ViewPurchasesFragment();
 
         this.totalTabs = totalTabs;
